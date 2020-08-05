@@ -1,6 +1,6 @@
 class Metronome
 {
-    constructor(tempo = 108)
+    constructor(tempo = 120)
     {
         this.audioContext = null;
         this.notesInQueue = [];         // notes that have been put into the web audio and may or may not have been played yet {note, time}
