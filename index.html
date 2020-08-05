@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Metronome</title>
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&display=swap" rel="stylesheet"> -->
-    <!-- <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+    <title>Simple Metronome</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -27,39 +25,11 @@
         <button class="tempo-change" data-change="+5">+5</button>
     </div>
 
-    <div id="created-by">
-        Created by <a href="https://grantjam.es">Grant James</a>
+    <div class="created-by">
+        Created by <a href="https://grantjam.es" target="_blank">Grant James</a>
     </div>
 
     <script src="metronome.js"></script>
-
-    <script>
-        var metronome = new Metronome();
-        var tempo = document.getElementById('tempo');
-        tempo.textContent = metronome.tempo;
-
-        var playPauseIcon = document.getElementById('play-pause-icon');
-
-        var playButton = document.getElementById('play-button');
-        playButton.addEventListener('click', function() {
-            metronome.startStop();
-
-            if (metronome.isRunning) {
-                playPauseIcon.className = 'pause';
-            }
-            else {
-                playPauseIcon.className = 'play';
-            }
-
-        });
-
-        var tempoChangeButtons = document.getElementsByClassName('tempo-change');
-        for (var i = 0; i < tempoChangeButtons.length; i++) {
-            tempoChangeButtons[i].addEventListener('click', function() {
-                metronome.tempo += parseInt(this.dataset.change);
-                tempo.textContent = metronome.tempo;
-            });
-        }
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>

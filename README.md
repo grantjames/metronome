@@ -1,2 +1,2 @@
 # metronome
-A metronome in Javascript
+A simple metronome written using Javascript and the Web Audio API.
