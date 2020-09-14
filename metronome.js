@@ -5,45 +5,114 @@ class Metronome
         this.audioContext = null;
         this.notesInQueue = [];         // notes that have been put into the web audio and may or may not have been played yet {note, time}
         this.currentQuarterNote = 0;
+        this.totalBeats = 0;
         this.tempo = tempo;
         this.lookahead = 25;          // How frequently to call scheduling function (in milliseconds)
         this.scheduleAheadTime = 0.1;   // How far ahead to schedule audio (sec)
         this.nextNoteTime = 0.0;     // when the next note is due
         this.isRunning = false;
         this.intervalID = null;
+        this.beats=4;
+        this.mode='measure';
+        this.difficulty='none';
+        this.bar=0;
+        this.emptyStart=Math.round(Math.random(4*this.beats));
+        this.measure=1
+        this.sizeDict={'easy':Math.floor(this.beats/2), 'medium':this.beats, 'hard':this.beats*2, 'god':this.beats*3,};
+
     }
+
+
 
     nextNote()
     {
         // Advance current note and time by a quarter note (crotchet if you're posh)
         var secondsPerBeat = 60.0 / this.tempo; // Notice this picks up the CURRENT tempo value to calculate beat length.
         this.nextNoteTime += secondsPerBeat; // Add beat length to last beat time
-    
+
         this.currentQuarterNote++;    // Advance the beat number, wrap to zero
-        if (this.currentQuarterNote == 4) {
+        if (this.currentQuarterNote == this.beats) {
             this.currentQuarterNote = 0;
         }
+        this.totalBeats++;    // Advance the total beat number
     }
 
     scheduleNote(beatNumber, time)
     {
         // push the note on the queue, even if we're not playing.
         this.notesInQueue.push({ note: beatNumber, time: time });
-    
+
         // create an oscillator
+        //document.getElementById("play-button").style.backgroundColor = "#000";
+        //if (this.audioContext.currentTime<=time) {
+        //    document.getElementById("play-button").style.color = "#fff";
+        //
+        //};
+
+
+        //alert(this.mode)
+
         const osc = this.audioContext.createOscillator();
         const envelope = this.audioContext.createGain();
-        
-        osc.frequency.value = (beatNumber % 4 == 0) ? 1000 : 800;
+        const modeProb={'none':0, 'easy':0.2, 'medium':0.35, 'hard':0.45, 'god':0.6,};
+        //console.log([this.totalBeats,this.bar]);
+        //console.log(this.emptyStart)
+        osc.frequency.value = (beatNumber  == 0 ) ? 1000 : 800;
+
+        //remove some beats to practive rhythm stability
+        if (this.difficulty != 'none') {
+            //in the random method we will drop beats at random based on a coin toss probability
+            if(this.mode == 'random'){
+                if(this.totalBeats>this.beats*2){
+                    osc.frequency.value = (Math.random() < modeProb[this.difficulty]) ? 0 : osc.frequency.value;
+                };
+            } else {
+                this.bar++
+                if (this.totalBeats==2*this.beats){this.bar=0};
+                if (this.bar == 4*this.beats){
+                    this.bar=0;
+                    this.emptyStart=Math.round(Math.random()*4*this.beats);
+                };
+
+                const range= function (size, startAt) {
+                    return [...Array(size).keys()].map(i => i + startAt);
+                };
+
+                this.sizeDict={'easy':Math.floor(this.beats/2), 'medium':this.beats, 'hard':this.beats*2, 'god':this.beats*3,};
+
+                this.measure=Math.floor(this.emptyStart/(this.beats));
+                this.measure = (this.measure==4) ? 3:this.measure;
+
+                const dropBeatsStart =range(this.sizeDict[this.difficulty],this.measure*4);
+                const dropBeats=[]
+                for (const each of dropBeatsStart){
+                    var beat=each
+                    if (each>=4*this.beats){
+                        beat=each-4*this.beats
+                    };
+                    dropBeats.push(beat)
+                };
+
+                if(this.totalBeats>this.beats*2){
+                    osc.frequency.value = (dropBeats.indexOf(this.bar)>=0) ? 0: osc.frequency.value
+                };
+
+            };
+
+        };
+
+        //osc.frequency.value = (beatNumber % 4 == 0) ? 0 : 800;
         envelope.gain.value = 1;
         envelope.gain.exponentialRampToValueAtTime(1, time + 0.001);
         envelope.gain.exponentialRampToValueAtTime(0.001, time + 0.02);
 
         osc.connect(envelope);
         envelope.connect(this.audioContext.destination);
-    
+
         osc.start(time);
         osc.stop(time + 0.03);
+        console.log([time,this.audioContext.currentTime,document.timeline.currentTime, performance.now(),window.requestAnimationFrame]);
+        //alert(this.mode);
     }
 
     scheduler()
@@ -52,6 +121,7 @@ class Metronome
         while (this.nextNoteTime < this.audioContext.currentTime + this.scheduleAheadTime ) {
             this.scheduleNote(this.currentQuarterNote, this.nextNoteTime);
             this.nextNote();
+
         }
     }
 
@@ -88,4 +158,5 @@ class Metronome
             this.start();
         }
     }
+
 }

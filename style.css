@@ -14,7 +14,6 @@ body {
     flex-flow: column;
 
     height: 100%;
-
     font-family: Arial, sans-serif;
     color: #e9e9e9;
 }
@@ -27,6 +26,8 @@ body {
     align-items: center;
     justify-content: center;
     flex-flow: column;
+    position: relative;
+    left: 43%;
 }
 
 .title {
@@ -38,6 +39,12 @@ body {
 #tempo {
     font-size: 40px;
 }
+
+#beats-bar {
+    font-size: 40px;
+}
+
+
 
 .bpm {
     font-size: 12px;
@@ -53,7 +60,33 @@ body {
     flex-flow: row;
 }
 
+.beat-controls {
+    margin-top: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: row;
+}
+
+.stability-radio {
+    margin-top: 5px;
+    justify-content: center;
+    flex-flow: row;
+
+}
+
+
+
+
+
+
+
 .tempo-container {
+    margin: 0 15px;
+}
+
+.beat-container {
     margin: 0 15px;
 }
 
@@ -75,6 +108,11 @@ button:focus {
 
 .created-by {
     margin-top: 40px;
+    font-size: 9px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
 }
 
 a {
@@ -101,3 +139,83 @@ a:hover {
     border-left: 15px solid #e9e9e9;
     border-right: 15px solid #e9e9e9;
 }
+
+
+
+
+#stab-title{
+    font-size: 20px;
+    text-align: center;
+}
+
+
+.radio-group1 {
+  border: solid 4px #000;;
+  width: 320.5px;
+  display: inline-block;
+  margin: 20px;
+  border-radius: 20px;
+  overflow: hidden;
+  translate: 20%
+}
+
+.radio-group {
+  border: solid 4px #000;;
+  margin: 20px;
+  border-radius: 20px;
+  overflow: hidden;
+  font-size:0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+
+input[type="radio"] {
+  position: absolute;
+  visibility: hidden;
+  display: none;
+}
+
+label {
+  color: #b3b3b3;
+  background-color: #d9d9d9;
+  display: inline-block;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 5px 20px;
+  font-size:16px;
+  margin-bottom: 0px
+}
+
+input[type="radio"]:checked+label {
+  background-color: #bbb;
+  color: #000;
+
+}
+
+
+label + input[type="radio"] + label {
+  border-left: solid 3px #000
+}
+
+.stability{
+    border: 3px solid #e9e9e9;
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 25px;
+    font-size:0px;
+    width: 600px;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    translate: 45%;
+
+}
+
+
+
+
