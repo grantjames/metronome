@@ -11,8 +11,10 @@
     <button id="play-button" class="">
         <div id="play-pause-icon" class="play"></div>
     </button>
-
-    <div class="tempo-controls">
+	
+	<div class="tempo-controls">
+        <button class="tempo-change" data-change="-20">-20</button>
+        <button class="tempo-change" data-change="-10">-10</button>
         <button class="tempo-change" data-change="-5">-5</button>
         <button class="tempo-change" data-change="-1">-</button>
 
@@ -23,7 +25,57 @@
 
         <button class="tempo-change" data-change="+1">+</button>
         <button class="tempo-change" data-change="+5">+5</button>
+        <button class="tempo-change" data-change="+10">+10</button>
+        <button class="tempo-change" data-change="+20">+20</button>
+
     </div>
+
+        <div class="beat-controls">
+        <button class="beat-change" data-change="-1">-</button>
+
+        <div class="beat-container">
+            <div id="beats-bar">4</div>
+            <div class="beats">beats</div>
+        </div>
+
+        <button class="beat-change" data-change="+1">+</button>
+    </div>
+
+    <div class="stability">
+        <div class="stability-title">
+            <div id="stab-title">Rhythm Stability Mode</div>
+        </div>
+
+
+        <div class = "radio-group1">
+            <input type="radio" id="m1" name="mode" value="measure" checked="checked">
+            <label for="m1">Cut Measure</label>
+            <input type="radio" id="m2" name="mode" value="random">
+            <label for="m2">Cut Random Beat</label>
+        </div>
+
+
+        <div class="stability-title">
+            <div id="stab-title">Difficulty</div>
+        </div>
+
+        <div class = "radio-group">
+            <input type="radio" id="c1" name="selector" value="none" checked="checked">
+            <label for="c1">None</label>
+            <input type="radio" id="c2" name="selector" value="easy">
+            <label for="c2">Easy</label>
+            <input type="radio" id="c3" name="selector" value="medium">
+            <label for="c3">Medium</label>
+            <input type="radio" id="c4" name="selector" value="hard">
+            <label for="c4">Hard</label>
+            <input type="radio" id="c5" name="selector" value="god">
+            <label for="c5">God Mode</label>
+        </div>
+
+
+
+    </div>
+
 
     <div class="created-by">
         Created by <a href="https://grantjam.es" target="_blank">Grant James</a>
