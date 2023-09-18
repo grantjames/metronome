@@ -3,31 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Metronome</title>
+    <title>Atomised Metronome</title>
     <link rel="stylesheet" href="style.css">
+    <link href="/dist/output.css" rel="stylesheet">
+
 </head>
-<body>
-    <div class="title">Simple Metronome</div>
-    <button id="play-button" class="">
-        <div id="play-pause-icon" class="play"></div>
-    </button>
+<div class="shrink-0">
+    <img class="h-12 w-12" src="/img/logo.svg" alt="Atomised Guitar Logo">
+</div>
+<div class="p-6 max-w-m mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4">
 
-    <div class="tempo-controls">
-        <button class="tempo-change" data-change="-5">-5</button>
-        <button class="tempo-change" data-change="-1">-</button>
+    <div>
+        <div class="text-xl font-medium text-black">Atomised Metronome</div>
+    </div>
+    <div>
+        <button id="play-button" class="">
+            <div id="play-pause-icon" class="play"></div>
+        </button>
 
-        <div class="tempo-container">
-            <div id="tempo">120</div>
-            <div class="bpm">bpm</div>
+        <div class="tempo-controls">
+            <button class="tempo-change" data-change="-5">-5</button>
+            <button class="tempo-change" data-change="-1">-</button>
+
+            <div class="tempo-container">
+                <div id="tempo">120</div>
+                <div class="bpm">bpm</div>
+            </div>
+
+            <button class="tempo-change" data-change="+1">+</button>
+            <button class="tempo-change" data-change="+5">+5</button>
         </div>
-
-        <button class="tempo-change" data-change="+1">+</button>
-        <button class="tempo-change" data-change="+5">+5</button>
     </div>
+</div>
 
-    <div class="created-by">
-        Created by <a href="https://grantjam.es" target="_blank">Grant James</a>
-    </div>
+<body>
 
     <script src="metronome.js"></script>
     <script src="app.js"></script>
