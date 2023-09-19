@@ -47,7 +47,10 @@
 		}
 
 		function stopTuner() {
-			audioContext.close();
+			if (audioContext) {
+					audioContext.close();
+					audioContext = null;
+			}
 			analyser = null;
 			startButton.disabled = false;
 			stopButton.disabled = true;
