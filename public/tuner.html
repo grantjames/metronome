@@ -58,12 +58,15 @@
 		}
 
 		function updatePitch() {
-			const buffer = new Float32Array(bufferSize);
-			analyser.getFloatFrequencyData(buffer);
-			const peak = getPeak(buffer);
-			const note = getNoteName(peak);
-
-			tunerDisplay.innerHTML = `Note: ${note}`;
+			if (analyser) {
+				const buffer = new Float32Array(bufferSize);
+				analyser.getFloatFrequencyData(buffer);
+				const peak = getPeak(buffer);
+				const note = getNoteName(peak);
+		
+				tunerDisplay.innerHTML = `Note: ${note}`;
+			}
+		
 			requestAnimationFrame(updatePitch);
 		}
 
