@@ -14,19 +14,19 @@ const increase5 = document.getElementById('increase5');
 var bpmChangeButtons = document.getElementsByClassName('bpm-change');
 
 decrease5.addEventListener('click', function() {
-        metronome.bpm += -5;
+        metronome.bpm -= 5;
         bpm.textContent = metronome.bpm;
     }
 );
 decrease1.addEventListener('click', function() {
-        metronome.bpm += -1;
+        metronome.bpm -= 1;
         bpm.textContent = metronome.bpm;
     });
 increase1.addEventListener('click', function() {
         metronome.bpm += 1;
         bpm.textContent = metronome.bpm;
     });
-increase1.addEventListener('click', function() {
+increase5.addEventListener('click', function() {
         metronome.bpm += 5;
         bpm.textContent = metronome.bpm;
     });
