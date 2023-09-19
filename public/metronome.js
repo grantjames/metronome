@@ -7,6 +7,7 @@ class Metronome
         this.currentBeatInBar = 0;
         this.beatsPerBar = 1; // simplify to bpm only for the time being
         this.bpm = bpm;
+
         this.lookahead = 25;          // How frequently to call scheduling function (in milliseconds)
         this.scheduleAheadTime = 0.1;   // How far ahead to schedule audio (sec)
         this.nextNoteTime = 0.0;     // when the next note is due
@@ -17,7 +18,9 @@ class Metronome
         this.imagePlayingSrc = 'img/Atomised Guitar Logo Playing.svg'; // Replace with your image source when playing
         this.imageStoppedSrc = 'img/Atomised Guitar Logo Paused.svg'; // Replace with your image source when stopped
         this.isImagePlaying = false;
-
+  
+        // VOLUME
+        this.volume=0.5;
     }
 
     nextNote()
@@ -42,9 +45,12 @@ class Metronome
         const envelope = this.audioContext.createGain();
         
         osc.frequency.value = (beatNumber % this.beatsPerBar == 0) ? 1000 : 800;
-        envelope.gain.value = 1;
-        envelope.gain.exponentialRampToValueAtTime(1, time + 0.001);
-        envelope.gain.exponentialRampToValueAtTime(0.001, time + 0.02);
+        envelope.gain.value = this.volume;
+ 
+        if (this.volume != 0) {
+            envelope.gain.exponentialRampToValueAtTime(this.volume, time + 0.001);
+            envelope.gain.exponentialRampToValueAtTime(0.001, time + 0.02);
+        }
 
         osc.connect(envelope);
         envelope.connect(this.audioContext.destination);
