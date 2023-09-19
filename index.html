@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metronome</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Additional custom styles */
+        .box-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body class="">
+    <section>
+        <div class="flex h-40 w-3/5">
+            <div class="w-40 bg-white items-center p-4">
+                <!-- Content for the first section -->
+                <img id="pauseplaylogo" src="img/Atomised Guitar Logo Paused.svg" alt="Logo" class="w-32 h-32 cursor-pointer">
+            </div>
+            <div class="w-2/3 bg-white p-4">
+                <!-- Right section with two vertical sections -->
+                <div class="flex flex-col">
+                    <div class="bg-white h-18 flex">
+                        <!-- Content for the top vertical section -->
+                        <div class="flex items-center">
+                            <div flex-col w-80>
+                                <label for="bpmSlider" class="text-gray-500 w-2/3">BPM&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            </div>
+                            <div w-80>
+                            <input type="range" id="bpmSlider" min="40" max="220" step="1" value="120">
+                            </div>
+                            <div>
+                                <span class="text-xl font-bold pl-2" id="bpmIndicator">120</span>
+                            </div>   
+                        </div>
+                        <div class="flex items-center p-4 w-1/3">
+                            <img id="decrease1" src="img/Decrease 1 beats.svg" alt="Increase BPM" class="w-8 h-8 cursor-pointer">
+                            <img id="increase1" src="img/Increase 1 beats.svg" alt="Decrease BPM" class="w-12 h-8 cursor-pointer">
+                        </div>
+                    </div>
+                    <!-- Content for the bottom vertical section -->
+                    <div class="bg-white h-18 flex">
+                        <div class="flex items-center">
+                            <div flex-col w-80>
+                            <label for="volumeSlider" class="text-gray-500 w-2/3">Volume&nbsp;</label>
+                            </div>
+                            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
+                            <div>
+                                <span class="text-xl font-bold pl-2" id="volumeIndicator">50%</span>
+                            </div>
+
+                        </div>
+                        <div class="flex items-center p-4 w-1/3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+    <script src="metronome.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
