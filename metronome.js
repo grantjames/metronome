@@ -1,23 +1,32 @@
 class Metronome
 {
-    constructor(tempo = 120)
+    constructor(bpm = 120)
     {
         this.audioContext = null;
         this.notesInQueue = [];         // notes that have been put into the web audio and may or may not have been played yet {note, time}
         this.currentBeatInBar = 0;
-        this.beatsPerBar = 4;
-        this.tempo = tempo;
+        this.beatsPerBar = 1; // simplify to bpm only for the time being
+        this.bpm = bpm;
+
         this.lookahead = 25;          // How frequently to call scheduling function (in milliseconds)
         this.scheduleAheadTime = 0.1;   // How far ahead to schedule audio (sec)
         this.nextNoteTime = 0.0;     // when the next note is due
         this.isRunning = false;
         this.intervalID = null;
+
+        this.image = document.getElementById('pauseplaylogo');
+        this.imagePlayingSrc = 'img/Atomised Guitar Logo Playing.svg'; // Replace with your image source when playing
+        this.imageStoppedSrc = 'img/Atomised Guitar Logo Paused.svg'; // Replace with your image source when stopped
+        this.isImagePlaying = false;
+  
+        // VOLUME
+        this.volume=0.5;
     }
 
     nextNote()
     {
         // Advance current note and time by a quarter note (crotchet if you're posh)
-        var secondsPerBeat = 60.0 / this.tempo; // Notice this picks up the CURRENT tempo value to calculate beat length.
+        var secondsPerBeat = 60.0 / this.bpm; // Notice this picks up the CURRENT bpm value to calculate beat length.
         this.nextNoteTime += secondsPerBeat; // Add beat length to last beat time
     
         this.currentBeatInBar++;    // Advance the beat number, wrap to zero
@@ -36,9 +45,12 @@ class Metronome
         const envelope = this.audioContext.createGain();
         
         osc.frequency.value = (beatNumber % this.beatsPerBar == 0) ? 1000 : 800;
-        envelope.gain.value = 1;
-        envelope.gain.exponentialRampToValueAtTime(1, time + 0.001);
-        envelope.gain.exponentialRampToValueAtTime(0.001, time + 0.02);
+        envelope.gain.value = this.volume;
+ 
+        if (this.volume != 0) {
+            envelope.gain.exponentialRampToValueAtTime(this.volume, time + 0.001);
+            envelope.gain.exponentialRampToValueAtTime(0.001, time + 0.02);
+        }
 
         osc.connect(envelope);
         envelope.connect(this.audioContext.destination);
@@ -71,6 +83,9 @@ class Metronome
         this.nextNoteTime = this.audioContext.currentTime + 0.05;
 
         this.intervalID = setInterval(() => this.scheduler(), this.lookahead);
+
+        // Change the image to the "playing" image
+        this.changeImageToPlaying();
     }
 
     stop()
@@ -78,15 +93,37 @@ class Metronome
         this.isRunning = false;
 
         clearInterval(this.intervalID);
+
+        // Change the image to the "stopped" image
+        this.changeImageToStopped();
     }
 
     startStop()
     {
         if (this.isRunning) {
+            this.changeImageToStopped();
             this.stop();
         }
         else {
+            this.changeImageToPlaying();
             this.start();
         }
     }
+
+    // Method to change the image to the "playing" image
+    changeImageToPlaying() {
+        if (this.image) {
+            this.image.src = this.imagePlayingSrc;
+            this.isImagePlaying = true;
+        }
+    }
+
+    // Method to change the image to the "stopped" image
+    changeImageToStopped() {
+        if (this.image) {
+            this.image.src = this.imageStoppedSrc;
+            this.isImagePlaying = false;
+        }
+    }
+    
 }
