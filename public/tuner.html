@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Guitar Tuner</title>
+</head>
+<body>
+	<h1>Guitar Tuner</h1>
+	<p>Click "Start" to begin tuning your guitar.</p>
+	<button id="startButton">Start</button>
+	<button id="stopButton" disabled>Stop</button>
+	<div id="tuner"></div>
+
+	<script>
+		let audioContext = null;
+		let analyser = null;
+		const bufferSize = 2048;
+		const targetFrequency = 440; // A4 (standard tuning)
+		const tolerance = 5; // Allowable frequency deviation in Hz
+
+		const startButton = document.getElementById('startButton');
+		const stopButton = document.getElementById('stopButton');
+		const tunerDisplay = document.getElementById('tuner');
+
+		startButton.addEventListener('click', startTuner);
+		stopButton.addEventListener('click', stopTuner);
+
+		function startTuner() {
+			audioContext = new (window.AudioContext || window.webkitAudioContext)();
+			analyser = audioContext.createAnalyser();
+			analyser.fftSize = bufferSize;
+
+			navigator.mediaDevices
+				.getUserMedia({ audio: true })
+				.then((stream) => {
+					const microphone = audioContext.createMediaStreamSource(stream);
+					microphone.connect(analyser);
+					updatePitch();
+				})
+				.catch((error) => {
+					console.error('Error accessing the microphone:', error);
+				});
+
+			startButton.disabled = true;
+			stopButton.disabled = false;
+		}
+
+		function stopTuner() {
+			audioContext.close();
+			analyser = null;
+			startButton.disabled = false;
+			stopButton.disabled = true;
+			tunerDisplay.innerHTML = '';
+		}
+
+		function updatePitch() {
+			const buffer = new Float32Array(bufferSize);
+			analyser.getFloatFrequencyData(buffer);
+			const peak = getPeak(buffer);
+			const note = getNoteName(peak);
+
+			tunerDisplay.innerHTML = `Note: ${note}`;
+			requestAnimationFrame(updatePitch);
+		}
+
+		function getPeak(buffer) {
+			const peakIndex = buffer.indexOf(Math.max(...buffer));
+			const hzPerBin = audioContext.sampleRate / bufferSize;
+			return peakIndex * hzPerBin;
+		}
+
+		function getNoteName(frequency) {
+			const notes = ['E', 'A', 'D', 'G', 'B', 'E']; // Standard tuning
+			const semitoneRatio = Math.pow(2, 1 / 12); // 12th root of 2
+			const A4Frequency = 440;
+
+			let closestNote = '';
+			let minDiff = Infinity;
+
+			for (const note of notes) {
+				const target = A4Frequency * Math.pow(semitoneRatio, notes.indexOf(note));
+				const diff = Math.abs(frequency - target);
+
+				if (diff < minDiff && diff < tolerance) {
+					minDiff = diff;
+					closestNote = note;
+				}
+			}
+
+			return closestNote;
+		}
+	</script>
+</body>
+</html>

@@ -5,7 +5,7 @@ class Metronome
         this.audioContext = null;
         this.notesInQueue = [];         // notes that have been put into the web audio and may or may not have been played yet {note, time}
         this.currentBeatInBar = 0;
-        this.beatsPerBar = 4;
+        this.beatsPerBar = 1; // simplify to bpm only for the time being
         this.bpm = bpm;
         this.lookahead = 25;          // How frequently to call scheduling function (in milliseconds)
         this.scheduleAheadTime = 0.1;   // How far ahead to schedule audio (sec)
