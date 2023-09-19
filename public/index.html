@@ -3,44 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atomised Metronome</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="/dist/output.css" rel="stylesheet">
-
+    <title>Metronome</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Additional custom styles */
+        .box-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
 </head>
-<div>
-    <div class="">
-        <img class="object-contain" src="/Atomised Guitar Logo.svg" alt="Atomised Guitar Logo">
-    </div>
-    <div class="p-6 max-w-m mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4">
+<body class="bg-gray-200 min-h-screen flex items-center justify-center">
 
-        <div>
-            <div class="text-xl font-medium text-black">Atomised Metronome</div>
-        </div>
-        <div>
-            <button id="play-button" class="">
-                <div id="play-pause-icon" class="play"></div>
-            </button>
+    <div class="bg-white shadow-md rounded-lg p-4 w-120">
+        <div class="box-container items-center">
+            <!-- Logo (Left Side) -->
+            <img id="pauseplaylogo" src="img/Atomised Guitar Logo Paused.svg" alt="Logo" class="w-32 h-32 cursor-pointer">
 
-            <div class="tempo-controls">
-                <button class="tempo-change" data-change="-5">-5</button>
-                <button class="tempo-change" data-change="-1">-</button>
-
-                <div class="tempo-container">
-                    <div id="tempo">120</div>
-                    <div class="bpm">bpm</div>
+            <!-- Buttons (Right Side) -->
+            <div class="flex flex-row space-x-4">
+      <!-- Decrease BPM Button -->
+            <img id="decrease5" src="img/Decrease 5 beats.svg" alt="Decrease BPM" class="w-12 h-12 cursor-pointer">
+            <!-- Increase BPM Button -->
+            <img id="decrease1" src="img/Decrease 1 beats.svg" alt="Increase BPM" class="w-12 h-12 cursor-pointer">
+        <!-- BPM Indicator -->
+                <div class="flex items-center space-x-2">
+                    <span class="text-xl font-bold" id="bpmIndicator">120</span>
+                    <span class="text-gray-500">BPM</span>
                 </div>
-
-                <button class="tempo-change" data-change="+1">+</button>
-                <button class="tempo-change" data-change="+5">+5</button>
+                <!-- Decrease BPM Button (5 BPM) -->
+                <img  id="increase1" src="img/Increase 1 beats.svg" alt="Decrease BPM" class="w-12 h-12 cursor-pointer">
+                <!-- Increase BPM Button (5 BPM) -->
+                <img  id="increase5"src="img/Increase 5 beats.svg" alt="Increase BPM" class="w-12 h-12 cursor-pointer">
             </div>
         </div>
+
+
     </div>
-</div>
 
-<body>
-
-<script src="metronome.js"></script>
-<script src="app.js"></script>
+    <script src="metronome.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
